@@ -531,6 +531,47 @@ private function ensureAllDataExists(array $data): array
             'pending_approvals' => count($leaveRequestsToApprove),
         ];
 
+        // AJOUTEZ ces calculs pour les statistiques affichées dans le template :
+    
+        // Calcul des demandes approuvées ce mois
+        $currentMonth = new \DateTime('first day of this month');
+        $nextMonth = new \DateTime('first day of next month');
+        
+        $approvedThisMonth = (int) $this->leaveRequestRepository->createQueryBuilder('lr')
+            ->select('COUNT(lr.id)')
+            ->innerJoin('lr.employee', 'e')
+            ->where('e.manager = :manager')
+            ->andWhere('lr.status = :approved')
+            ->andWhere('lr.submittedAt >= :start_date')
+            ->andWhere('lr.submittedAt < :end_date')
+            ->setParameter('manager', $manager)
+            ->setParameter('approved', 'APPROVED')
+            ->setParameter('start_date', $currentMonth)
+            ->setParameter('end_date', $nextMonth)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Calcul des absents aujourd'hui
+        $today = new \DateTime();
+        $absentToday = (int) $this->leaveRequestRepository->createQueryBuilder('lr')
+            ->select('COUNT(DISTINCT lr.employee)')
+            ->innerJoin('lr.employee', 'e')
+            ->where('e.manager = :manager')
+            ->andWhere('lr.status = :approved')
+            ->andWhere(':today BETWEEN lr.startDate AND lr.endDate')
+            ->setParameter('manager', $manager)
+            ->setParameter('approved', 'APPROVED')
+            ->setParameter('today', $today)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+            dump([
+                'team_members_count' => count($managedEmployees),
+                'pending_requests_count' => count($leaveRequestsToApprove),
+                'approved_this_month' => $approvedThisMonth,
+                'absent_today' => $absentToday,
+            ]);
+
         return [
             'role' => 'manager',
             'managed_teams' => $managedTeams,
@@ -538,6 +579,14 @@ private function ensureAllDataExists(array $data): array
             'leave_requests_to_approve' => $leaveRequestsToApprove,
             'team_attendance_today' => $teamAttendanceToday,
             'team_stats' => $teamStats,
+            
+            // AJOUTEZ ces nouvelles variables :
+            'team_members_count' => count($managedEmployees),
+            'pending_requests_count' => count($leaveRequestsToApprove),
+            'approved_this_month' => $approvedThisMonth,
+            'absent_today' => $absentToday,
+            'recent_requests' => array_slice($leaveRequestsToApprove, 0, 5), // 5 plus récentes
+            'team_members' => $managedEmployees, // Pour la section équipe
         ];
     }
 

@@ -173,7 +173,7 @@
                 <div class="stats-card">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h3 class="mb-0 text-primary">{{ totalLeaveTypes|length }}</h3>
+                            <h3 class="mb-0 text-primary">{{ stats.total }}</h3>
                             <small class="text-muted">Types total</small>
                         </div>
                         <div class="text-primary fs-2">
@@ -186,7 +186,7 @@
                 <div class="stats-card">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h3 class="mb-0 text-success">{{ totalLeaveTypes|length }}</h3>
+                            <h3 class="mb-0 text-success">{{ stats.active }}</h3>
                             <small class="text-muted">Types actifs</small>
                         </div>
                         <div class="text-success fs-2">
@@ -199,7 +199,7 @@
                 <div class="stats-card">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h3 class="mb-0 text-info">{{ totalLeaveTypes|length }}</h3>
+                            <h3 class="mb-0 text-info">{{ stats.paid }}</h3>
                             <small class="text-muted">Types payés</small>
                         </div>
                         <div class="text-info fs-2">
@@ -212,7 +212,7 @@
                 <div class="stats-card">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <h3 class="mb-0 text-warning">{{ totalLeaveTypes|length }}</h3>
+                            <h3 class="mb-0 text-warning">{{ stats.requires_approval }}</h3>
                             <small class="text-muted">Avec approbation</small>
                         </div>
                         <div class="text-warning fs-2">
@@ -259,7 +259,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <span class="text-muted">
-                    <span id="visibleCount">{{ totalLeaveTypes|length }}</span> résultat(s) affiché(s)
+                    <span id="visibleCount">{{ leave_types|length }}</span> résultat(s) affiché(s)
                 </span>
             </div>
             <div class="btn-group" role="group">
@@ -274,9 +274,9 @@
 
         {# Affichage en cartes #}
         <div id="cardContainer">
-            {% if totalLeaveTypes|length > 0 %}
+            {% if leave_types|length > 0 %}
                 <div class="row" id="leaveTypeCards">
-                    {% for leaveType in totalLeaveTypes %}
+                    {% for leaveType in leave_types %}
                         <div class="col-lg-4 col-md-6 mb-4 leave-type-item" 
                              data-name="{{ leaveType.name|lower }}"
                              data-code="{{ leaveType.code|lower }}"
@@ -393,7 +393,7 @@
 
         {# Affichage en tableau (masqué par défaut) #}
         <div id="tableContainer" style="display: none;">
-            {% if totalLeaveTypes|length > 0 %}
+            {% if leave_types|length > 0 %}
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <thead>
@@ -407,7 +407,7 @@
                             </tr>
                         </thead>
                         <tbody id="leaveTypeTable">
-                            {% for leaveType in totalLeaveTypes %}
+                            {% for leaveType in leave_types %}
                                 <tr class="leave-type-row" 
                                     data-name="{{ leaveType.name|lower }}"
                                     data-code="{{ leaveType.code|lower }}"

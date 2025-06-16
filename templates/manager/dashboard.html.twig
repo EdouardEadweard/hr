@@ -181,7 +181,7 @@
 
         .section-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
@@ -415,6 +415,15 @@
 {% endblock %}
 
 {% block body %}
+
+{# DEBUG - à supprimer après #}
+<!--<div style="background: red; color: white; padding: 10px;">
+    team_members_count: {{ team_members_count is defined ? team_members_count : 'NON DÉFINI' }}<br>
+    pending_requests_count: {{ pending_requests_count is defined ? pending_requests_count : 'NON DÉFINI' }}<br>
+    approved_this_month: {{ approved_this_month is defined ? approved_this_month : 'NON DÉFINI' }}<br>
+    absent_today: {{ absent_today is defined ? absent_today : 'NON DÉFINI' }}
+</div>-->
+
 <div class="dashboard-header">
     <div class="container">
         <div class="welcome-text">

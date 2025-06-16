@@ -84,16 +84,15 @@ class AttendanceType extends AbstractType
             ])
             ->add('status', ChoiceType::class, [
                 'label' => 'Statut de présence',
-                'choices' => [
-                    'Présent' => 'present',
-                    'Absence justifiée' => 'justified_absence',
-                    'Absence injustifiée' => 'unjustified_absence',
-                    'Congé maladie' => 'sick_leave',
-                    'Mission externe' => 'external_mission',
-                    'Télétravail' => 'remote_work',
-                    'Formation' => 'training'
-                ],
-                'data' => 'present',
+                    'choices' => [
+                        'Présent' => 'présent',
+                        'Absent' => 'absent',
+                        'Retard' => 'retard',
+                        'Départ anticipé' => 'départ_anticipé',
+                        'Télétravail' => 'télétravail',
+                        'Mission' => 'mission'
+                    ],
+                    'data' => 'présent',
                 'attr' => [
                     'class' => 'form-select',
                     'data-bs-toggle' => 'tooltip',
