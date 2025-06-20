@@ -13,6 +13,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
     {% block stylesheets %}{% endblock %}
+            {{ encore_entry_link_tags('app') }}
 </head>
 <body>
     <!-- Navigation -->
@@ -399,5 +400,6 @@
     </script>
     
     {% block javascripts %}{% endblock %}
+            {{ encore_entry_script_tags('app') }}
 </body>
 </html>
